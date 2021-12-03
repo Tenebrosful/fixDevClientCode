@@ -1,0 +1,32 @@
+{
+  "root": true,
+  "parserOptions": {
+    "ecmaVersion": 2021,
+    "sourceType": "module"
+  },
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "extends": [
+    "eslint:recommended"
+  ],
+  "rules": {
+    // common
+    "no-return-await": "error",
+    "no-unreachable-loop": "error",
+    "no-promise-executor-return": "error",
+    "no-unsafe-optional-chaining": "error",
+    "no-useless-backreference": "error",
+    "require-atomic-updates": "error",
+    "no-await-in-loop": "error",
+    "spaced-comment": "error",
+    "sort-keys": "error",
+    "no-unused-vars": "off",
+    "curly": [
+      "error",
+      "multi"
+    ],
+    "eqeqeq": "error"
+  }
+}

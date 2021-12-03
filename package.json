@@ -1,9 +1,11 @@
 {
   "devDependencies": {
+    "eslint": "^8.3.0",
     "stylelint": "^14.1.0",
     "stylelint-config-standard": "^24.0.0"
   },
   "scripts": {
-    "stylelint": "npx stylelint **/*.css --fix"
+    "stylelint": "npx stylelint **/*.css --fix",
+    "eslint": "npx eslint . --fix"
   }
 }
