@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="Enchainer 2 requetes XHR successivement">
+  <title>Enchainer des requetes XHR</title>
+  <script src="xhr-github.js" defer></script>
+</head>
+
+<body>
+  <div class="col-md-10 offset-md-1" id="container">
+    <label>User ID<input id="userIdInput" type="number" required min="0" onfocusout="process(this.value)"></label>
+    <div id="userInfo"></div>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nom</th>
+          <th>Nom Complet</th>
+          <th>description</th>
+          <th>Visibilité</th>
+          <th>Fork ?</th>
+          <th>Date de Création</th>
+          <th>Dernière mise à jour</th>
+        </tr>
+      </thead>
+      <tbody id="repos">
+      </tbody>
+    </table>
+  </div>
+</body>
+
+</html>
