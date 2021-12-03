@@ -28,7 +28,9 @@
 * @property {string} node_id
 * @property {string} name
 * @property {string} full_name
+* @property {string} html_url
 * @property {boolean} private
+* @property {boolean} fork
 * @property {UserData} owner
 */
 
@@ -71,7 +73,7 @@ let getUser = (data, rang) => {
 /** gere les taches pour afficher les repos d'un user
 * @param {int} rang Rang du user
 */
-function getUserRepos(rang) {
+function getUserDepots(rang) {
     sendXhr('https://api.github.com/users', 
     /**
      * 
@@ -82,4 +84,4 @@ function getUserRepos(rang) {
     })
 }
 
-getUserRepos(3);
+getUserDepots(3);
