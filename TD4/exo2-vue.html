@@ -1,0 +1,45 @@
+<html lang="fr">
+
+<head>
+    <title>Valeur calculée</title>
+    <meta charset="utf-8">
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+
+<body>
+    <div id="container">
+        <h1>Valeurs calculées</h1>
+        <input type="text" v-model="name">
+        &nbsp;
+        <input type="text" v-model="surName">
+        <p>Le nom complet est : {{ nomComplet }}</p>
+    </div>
+    <script>
+        const MyVueApp = {
+            data() {
+                return {
+                    name: "John",
+                    surName: "Snow"
+                }
+            },
+            methods: {
+            },
+            computed: {
+                // emplacement ou on effectue les calculs à réaliser quand l'événement onDOMready est ok
+
+                /**
+                * Cette fonction doit retourner une valeur calculée à partir d'autres variables
+                * @param {string} name Nom 
+                * @param {string} surName Prénom
+                */
+                nomComplet() {
+                    return this.name + ' ' + this.surName;
+                }
+            }
+        }
+
+        Vue.createApp(MyVueApp).mount('#container');
+    </script>
+
+</body>
+</html>
