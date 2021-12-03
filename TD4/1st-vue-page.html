@@ -1,0 +1,107 @@
+<html lang="fr">
+
+<head>
+    <title>Ma premiere page avec Vue.js 3</title>
+    <meta charset="utf-8">
+    <script src="https://unpkg.com/vue@next"></script>
+    <style>
+        .color-red {
+            color: red;
+        }
+
+        .color-green {
+            color: green;
+        }
+
+        .bg-green {
+            background: lightgreen;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container">
+        <h1 v-bind:title="infoDate">Ma premiere page avec Vue.js 3</h1>
+        <p>Afficher le contenu d'une variable : {{variableExemple}}</p>
+        <input type="text" id="saisietest" v-model="message">
+        <p>La valeur de l'input ci-dessus est : {{message}}</p>
+        <h4>Liste des prénoms</h4>
+        <ul>
+            <li v-for="name in names">{{name}}</li>
+        </ul>
+        <input type="text" id="prenom" v-model="newName">
+        <button type="button" v-on:click="addName">Ajouter le prénom</button>
+        <h2 v-bind:class="className">Titre avec une classe dynamique</h2>
+        <button type="button" v-on:click="changeTitleColor" v-bind:disabled="btnActivated"
+            v-bind:class="{ 'bg-green' : dataIsBool }">changer la couleur du titre</button>
+        &nbsp;
+        <button type="button" v-on:click="activateButton">Desactiver / activer le bouton</button>
+        <div v-if="afficheDebug">
+            <h2>Debuggage</h2>
+            <p>afficher le contenu d'une variable avec { { } }</p>
+            <p>className = {{className}}</p>
+            <p>names = {{names}}</p>
+            <p>objet = {{objet}}</p>
+        </div>
+    </div>
+    <script>
+        // {{ ... }} sont nommés Mustach
+        const MyFirstVueApp = {
+            data() {
+                return {
+                    variableExemple: "Contenu de la variable de type string",
+                    variableExemple2: "autre chaine de caractères",
+                    message: "Modifiez ce texte ...",
+
+                    objet: { text: 'yo', num: 5 },
+
+                    names: ["Joe", "Noa", "Steve", "Albert"],
+                    newName: "",
+
+                    infoDate: "Vous avez atteint cette page le " + new Date().toLocaleString(),
+
+                    className: "color-red",
+                    btnActivated: true,
+                    dataIsBool: false,
+                    afficheDebug: true
+                }
+            },
+            methods: {
+                /** 
+                * Fonction pour ajouter un prénom dans la liste
+                * @param {string[]} names Tableau de prénoms
+                * @param {string} NewName Prénom à ajouter
+                */
+                addName() {
+                    this.names.push(this.newName);
+                    this.newName = "";
+                },
+
+                /**
+                * Change la couleur du titre H2
+                * @param {string} className Classe à appliquer
+                */
+                changeTitleColor() {
+                    if (this.className == "color-green") {
+                        this.className = "color-red";
+                        this.dataIsBool = false;
+                    }
+                    else {
+                        this.className = "color-green";
+                        this.dataIsBool = true;
+                    }
+
+                },
+                /**
+                * fonction qui active ou desactive le bouton de changement de couleur du titre
+                * @param {boolean} btnActivated
+                */
+                activateButton() {
+                    this.btnActivated = !this.btnActivated;
+                }
+            }
+        }
+        Vue.createApp(MyFirstVueApp).mount('#container');
+    </script>
+</body>
+</html>
