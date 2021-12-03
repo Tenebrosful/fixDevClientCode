@@ -33,21 +33,14 @@ function showWeatherData (data) {
 
 }
 
-// -------------------- main
+let apiKey ="45f5f752c0d9d62ff8054e3106fefe6d";
 
-document.addEventListener("DOMContentLoaded", function() {
+let city = 'Paris, fr';
 
-	let apiKey ="45f5f752c0d9d62ff8054e3106fefe6d";
+let options = "&units=metric" + "&lang=fr" 
 
-	let city = 'Paris, fr';
+let weatherUrl1 = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&APPID="+ apiKey + options;
 
-	let options = "&units=metric" + "&lang=fr" 
+console.log('API URL : ' + weatherUrl1);
 
-	let weatherUrl1 = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&APPID="+ apiKey + options;
-
-	console.log('API URL : ' + weatherUrl1);
-
-	sendXhr(weatherUrl1, showWeatherData);
-
-
-})
+sendXhr(weatherUrl1, showWeatherData);
