@@ -27,21 +27,21 @@ let displayUserRepos = (reposList) => {
 // function getUser (data, uid) { }
 /** Recupere les repos d'un user sur Github
 * @param {Object} data Liste des users github
-* @param {int} user_id Id du user dont on souhaite afficher les repos
+* @param {int} rang rang du user dont on souhaite afficher les repos
 */
 
-let getUser = (data, user_id) => {
-    let user = data[user_id];
+let getUser = (data, rang) => {
+    let user = data[rang];
     console.log('user : ', user.login);
     sendXhr(user.repos_url, displayUserRepos);
 }
 
 /** gere les taches pour afficher les repos d'un user
-* @param {int} user_id Id du user
+* @param {int} rang Rang du user
 */
-function getUserRepos(user_id) {
+function getUserRepos(rang) {
     sendXhr('https://api.github.com/users', function (data) {
-        getUser(data, user_id)
+        getUser(data, rang)
     })
 }
 
