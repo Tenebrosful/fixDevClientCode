@@ -4,8 +4,8 @@
 
 /**
 * Envoie la requete pour recuperer la liste des users
-* @param : uid {int} ID du user dont on veut recuperer les repos
-* @return : Promise > resolve = infos d'un user {object}
+* @param {int} uid ID du user dont on veut recuperer les repos
+* @return {Promise<Object} Infos d'un user
 */
 
 let getListUsers = (uid) => {
@@ -25,8 +25,7 @@ let getListUsers = (uid) => {
 
 /**
 * gere les taches à effectuer pour afficher les repos d'un user
-* @param : user_id {int} id du user
-* return : vide
+* @param {int} user_id Id du user
 */
 let displayUserRepos = (user_id) => {
 
