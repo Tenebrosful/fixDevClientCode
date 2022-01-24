@@ -1,0 +1,161 @@
+<html>
+<head>
+	<title>Utilisation d'Axios ImDB</title>
+	<meta charset="utf-8">
+
+    <script src="https://unpkg.com/vue@next"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios@0.21.1/dist/axios.min.js"></script>
+
+		<style>
+			body {
+				font-family: sans-serif;
+			}
+
+			input, button {
+				font-size: 1.5em;
+			}
+
+			h1 {
+				text-align: center;
+			}
+
+			#application {
+					width:90%;
+					margin:8px auto;
+			}
+
+			.agauche {
+				float:left;
+				padding-right: 30px;
+			}
+
+			.alerte {
+				color:red;
+			}
+
+		</style>
+
+</head>
+
+<body>
+
+    <div id="application">
+          <h1>ImDB - with Axios</h1>
+
+					<input ref="searchinput" type="text" v-model="title"  v-on:keyup.enter="movieSearch()" />&nbsp;<button v-on:click="movieSearch()">Recherche</button>
+
+          <section v-if="errored">
+            <p>We're sorry, we're not able to retrieve this information at the moment, please try back later</p>
+          </section>
+
+          <section v-else>
+
+            <div v-if="loading">Loading...</div>
+
+            <div v-else>
+
+							<div v-if="movie!==null">
+								<img v-bind:src="movie.Poster" v-bind:alt="movie.Title" class="agauche"/>
+
+								<h2>{{movie.Title}}</h2>
+								<p>Année : {{movie.Year}} - Durée : {{movie.Runtime}}</p>
+								<p>Genre : {{movie.Genre}}</p>
+								<p>Pitch : {{movie.Plot}}</p>
+								<h4>Distribution</h4>
+								<p>{{movie.Actors}}</p>
+								<p><strong>Note ImDB : {{movie.imdbRating}} / 10</strong></p>
+
+							</div>
+
+							<div v-else>
+								<p></i>Saisissez un titre de film puis lancer la recherche</i></p>
+								<p class="alerte">{{alertMessage}}</p>
+							</div>
+            </div>
+
+          </section>
+
+    </div>
+
+
+    <script>
+
+
+
+    const vueApp = {
+
+        data() {
+					return {
+						title: "",
+						movie: null,
+	          infoBrute: null,
+	          loading: false,
+	          errored: false,
+						alertMessage: ""
+        	}
+				},
+
+        mounted () {
+        // Called after the instance has been mounted : plus proche de onDOMReady()
+					this.$refs.searchinput.focus(); // ily a un seul input, donc on lui donne le focus immediatement
+        },
+
+
+        methods: {
+					/**
+					* Recherche un film sur ImDB à l'aide du titre
+					* constant : title (string) titre du film
+					* return : movie (object) infos structurées du film
+					*/
+					movieSearch () {
+						if (this.title!=="") {
+
+							this.loading = true;
+							let apiUrl = "http://www.omdbapi.com/?t="+this.title+"&r=json&apikey=5581c61c";
+
+							axios
+							.get(apiUrl)
+							.then(response => {
+								console.log(response);
+								console.log(response.data.Response);
+								if (response.data.Response=="True") { // on teste la reponse pour savoir si le film a été trouvé ou pas
+																											// attention dans la reponse c'est un string pas un boolean
+									this.infoBrute = response;
+									this.movie = response.data;
+									this.alertMessage = "";
+								}
+								else this.alertMessage = "Nous n'avons pas trouvé de film correspondant à : "+this.title;
+
+							})
+							.catch(error => {
+								console.log(error);
+								this.errored = true;
+							})
+							.finally( () => this.loading = false );
+							// méthode appelée quand le callback d'une promise est executé : resolve ou reject, cela évite de dupliquer le code dans .then & .catch
+						}
+						else {
+							this.alertMessage = "Vous n'avez pas saisi de titre !";
+						}
+					}
+        },
+
+    	};
+
+			Vue.createApp(vueApp).mount('#application');
+
+
+			// Doc axios
+			// https://kapeli.com/cheat_sheets/Axios.docset/Contents/Resources/Documents/index
+
+			// API ImDB
+			// http://www.omdbapi.com/
+
+			// JSON viewer
+			// https://jsonformatter.org/json-viewer
+
+
+    </script>
+</body>
+</html>

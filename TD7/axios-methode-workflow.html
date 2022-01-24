@@ -1,0 +1,99 @@
+<html>
+<head>
+
+	<title>Methode de worflow avec Axios</title>
+	<meta charset="utf-8">
+
+    <script src="https://unpkg.com/vue@next"></script>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/accounting@0.4.1/accounting.min.js"></script>
+
+</head>
+
+<body>
+	<div id="container">
+		<h1>Methode de worflow avec Axios</h1>
+
+		<section v-if="errored">
+			<p>Désolé, nous n'avons pas pu accéder aux données du serveur pour le moment, réessayez plus tard</p>
+		</section>
+
+		<section v-else>
+
+			<div v-if="loading">chargement en cours ...</div>
+
+			<div v-else>
+				<h3>Valeur du Bitcoin</h3>
+
+				<div v-for="currency in info">
+					<p>{{currency.description}} : {{monetaire(currency.rate_float)}} <span v-html="currency.symbol"></span></p>
+				</div>
+			</div>
+		</section>
+
+	</div>
+
+	<script>
+		const MyVueApp ={
+
+			data() {
+				return {
+					infoBrute: null, //données renvoyées pa la requete XHR
+					info: null,
+					loading: true,
+					errored: false
+
+				}
+			},
+
+			// L'instance de Vue a terminé le process des options, voici ce qui est déjà prêt : data, computed, methods, watch/events callback
+			created () {
+				axios
+				.get('https://api.coindesk.com/v1/bpi/currentprice.json')
+				.then(response => {
+					this.infoBrute = response;
+					this.info = this.infoBrute.data.bpi;
+				})
+				.catch(error => {
+					console.log(error);
+					this.errored = true;
+				})
+				.finally( () => this.loading = false );
+				// méthode appelée quand le callback d'une promise est executé : resolve ou reject, cela évite de dupliquer le code dans .then & .catch
+			},
+
+
+			methods: {
+				/**
+				* Affiche un nombre au format monetaire à l'aide la librairie accounting.js
+				* constant : money (float) valeur monétaire
+				* return : chaine de caractère au format monétaire demandé
+				*/
+				monetaire(money) {
+					return accounting.formatMoney(money," ", 2, " ",",");
+				}
+
+			},
+
+			computed: {
+				// emplacement ou on effectue les calculs à réaliser quand l'événement onDOMready est ok
+			}
+
+		}
+
+		Vue.createApp(MyVueApp).mount('#container');
+
+		// Doc axios
+		// https://kapeli.com/cheat_sheets/Axios.docset/Contents/Resources/Documents/index
+
+		// Doc Accounting.js
+		// http://openexchangerates.github.io/accounting.js/
+
+		// JSON viewer
+		// https://jsonformatter.org/json-viewer
+
+	</script>
+
+</body>
